@@ -20,6 +20,12 @@
     <script type="text/javascript" src="photos.js"></script>
 </head>
 
+<?php
+
+                $user_id=$_GET['user_id'];
+                $item_id=$_GET['item_id'];
+?>
+
 <body>
     <div class="container">
         <!-- Header is contained within a row class which consists of three columns -->
@@ -27,7 +33,7 @@
             <div class="col-lg-2">
                 <!-- In the first column of the header, place the renda logo and have it link back to the homepage -->
                 <div role="img" aria-label="Image of Renda Logo, click it to go to the home page">
-                    <a href="index.html">
+                <a href="home2.php?id=<?php echo $user_id ?>">
                         <img src="RendaLogo.png" width="158px" height="98px">
                     </a>
                 </div>
@@ -41,7 +47,7 @@
             </div>
             <!-- In the third columnn of the header, place the logout button -->
             <div class="col-lg-2" style="height: 98px; padding-left: 50px;">
-                <button class="button2"><a href="login.html">Logout</a></button>
+                <button class="button2"><a href="index.php">Logout</a></button>
             </div>
 
             <!-- Create the navbar which is placed right below the header -->
@@ -57,7 +63,7 @@
                 <div class="navbar-links">
                     <ul>
                         <li><a href="#">Categories</a></li>
-                        <li><a href="newposting.html">New Posting</a></li>
+                        <li><a href="newposting.php?user_id=<?php echo $user_id ?>">New Posting</a></li>
                     </ul>
                 </div>
             </nav>
@@ -74,6 +80,7 @@
 
             $user_id=$_GET['user_id'];
             $item_id=$_GET['item_id'];
+            $transaction_id=$_GET['transaction_id'];
 
             $result = $conn->query("select * from items where item_id=".$item_id);
 
@@ -87,6 +94,8 @@
             $category_name=$row2["category_name"];
 
 
+
+
         
         ?>
 
@@ -97,6 +106,7 @@
                 <div class="postmain">
                     <div class="row">
                         <h1 style="text-align: center;">Order Placed Successfully!</h1>
+                        <h2 style="color: #00b050; text-align: center;">Your order id# is <?php echo $transaction_id ?></h2>
                         <h1 id="title" style="text-align: center;"></h1>
                     </div>
 
@@ -111,9 +121,10 @@
                     <!-- Insert the information for the item including description, price, payment method, contact info and rental duration -->
 
                     <p> <b>Item Description: </b><?php echo $row["description"] ?></p>
-                    <p><b>Buy Price: </b> <?php echo $row["buy_price"] ?></p>
+                    <p><b>Price: </b> <?php echo $row["rent_price"] ?></p>
                     <p><b>Payment Method: </b> <?php echo $row["payment_method"] ?></p>
                     <p><b>Contact Info: </b> <?php echo $row["contact_method"] ?></p>
+                    <p><b>Rental Duration: </b> <?php echo $row["rent_duration"] ?></p>
 
             </div>
 
@@ -145,8 +156,8 @@
             <div class="col-lg-4">
                 <a href="#" class="fa fa-facebook" style="width: 60px; margin-top: 15px;"></a>
                 <a href="#" class="fa fa-twitter" style="width: 80px;"></a>
-                <button class="button2"><a href="aboutus.html">About Us</a></button>
-                <button class="button2"><a href="contactus.html">Contact Us/FAQ</a></button>
+                <button class="button2"><a href="aboutus.php?user_id=<?php echo $user_id ?>">About Us</a></button>
+                <button class="button2"><a href="contactus.php?user_id=<?php echo $user_id ?>">Contact Us/FAQ</a></button>
                 
             </div>
         <div>

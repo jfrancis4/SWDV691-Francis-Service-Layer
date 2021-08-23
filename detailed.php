@@ -19,13 +19,11 @@
     <script type="text/javascript" src="mustache.js"></script>
     <script type="text/javascript" src="photos.js"></script>
 </head>
-
 <?php
 
                 $user_id=$_GET['user_id'];
                 $item_id=$_GET['item_id'];
 ?>
-
 <body>
     <div class="container">
         <!-- Header is contained within a row class which consists of three columns -->
@@ -33,7 +31,7 @@
             <div class="col-lg-2">
                 <!-- In the first column of the header, place the renda logo and have it link back to the homepage -->
                 <div role="img" aria-label="Image of Renda Logo, click it to go to the home page">
-                <a href="home2.php?id=<?php echo $user_id ?>">
+                    <a href="home2.php?id=<?php echo $user_id ?>">
                         <img src="RendaLogo.png" width="158px" height="98px">
                     </a>
                 </div>
@@ -117,7 +115,7 @@
 
                 $sql2 = "INSERT INTO transactions ".
                 "(transaction_id, renter_id, rentee_id, item_id, item_name, rent_duration,rent_or_buy) "."VALUES ".
-                "('$transaction_id','$renter_id','$user_id','$item_id','$item_name','0','buy')";
+                "('$transaction_id','$renter_id','$user_id','$item_id','$item_name','$rent_duration','rent')";
 
             
 
@@ -160,17 +158,17 @@
                     <!-- Insert the information for the item including description, price, payment method, contact info and rental duration -->
 
                     <p> <b>Item Description: </b><?php echo $row["description"] ?></p>
-                    <p><b>Buy Price: </b> <?php echo $row["buy_price"] ?></p>
+                    <p><b>Price: </b> <?php echo $row["rent_price"] ?></p>
                     <p><b>Payment Method: </b> <?php echo $row["payment_method"] ?></p>
                     <p><b>Contact Info: </b> <?php echo $row["contact_method"] ?></p>
-
+                    <p><b>Rental Duration: </b> <?php echo $row["rent_duration"] ?></p>
             </div>
 
             <div class="form-buttons" style="text-align: right;">
                 
                 <!-- Set the Send form button -->
                 
-        <form action="detailedBuy.php?item_id=<?php echo $row["item_id"] ?>&user_id=<?php echo $user_id ?>" method="POST" enctype="multipart/form-data">
+        <form action="detailed.php?item_id=<?php echo $row["item_id"] ?>&user_id=<?php echo $user_id ?>" method="POST" enctype="multipart/form-data">
                 <button class="button" type="submit" name="submit">PLACE ORDER</button> 
         </form>
 

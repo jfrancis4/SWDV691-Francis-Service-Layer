@@ -5,7 +5,7 @@
     <!-- Set the title of the page to be Renda -->
     <title>P2P Rentals</title>
     <meta charset="utf-8">
-    <!-- Link to the bootstrap stylesheet -->
+     <!-- Link to the bootstrap stylesheet -->
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <!-- Link to stylesheet for social media links -->
@@ -69,6 +69,7 @@
             </nav>
         </div>
 
+
         <?php
             $host="localhost";
             $user="root";
@@ -79,6 +80,8 @@
 
             $user_id=$_GET['user_id'];
             $item_id=$_GET['item_id'];
+            $transaction_id=$_GET['transaction_id'];
+
 
             $result = $conn->query("select * from items where item_id=".$item_id);
 
@@ -91,69 +94,27 @@
 
             $category_name=$row2["category_name"];
 
-            if(isset($_POST['submit'])){
-                $user_id=$_GET['user_id'];
-                $item_id=$_GET['item_id'];
 
-                $result3 = $conn->query("select max(transaction_id) as transaction_id from transactions");
+        
+        ?>
 
-
-                $row3 = mysqli_fetch_assoc($result3);
-
-                $transaction_id=$row3['transaction_id']+1;
-
-                echo $transaction_id;
-
-                $renter_id=$row['renter_id'];
-                $item_id=$row['item_id'];
-                $item_name=$row['name'];
-                $rent_duration=$row['rent_duration'];
-
-                echo $renter_id;
-                echo $user_id;
-                echo $item_id;
-                echo $item_name;
-                echo $rent_duration;
-
-                $sql2 = "INSERT INTO transactions ".
-                "(transaction_id, renter_id, rentee_id, item_id, item_name, rent_duration,rent_or_buy) "."VALUES ".
-                "('$transaction_id','$renter_id','$user_id','$item_id','$item_name','0','buy')";
-
-            
-
-                if ($conn->query($sql2)) {
-                    header("Location: confirmation.php?item_id=".$item_id."&user_id=".$user_id."&transaction_id=".$transaction_id);
-                    die();
-                }
-                else {
-                    printf("Could not insert record into table:");
-                }
-            }
-
-
-
-    ?>
 
         <!-- Open up a row element for the content section -->
         <div class="row">
             <!-- Open up a postmain section, which consists of white background with shadow -->
                 <div class="postmain">
                     <div class="row">
-                        <div class="col-lg-6">
-                            <!-- In the first column display the title, which is loaded from a JS url variable -->
-                            <h1 id="title"><?php echo $row["name"] ?></h1>
-                        </div>
-                        <!-- In the second column display the category, which is loaded from a JS url variable-->
-                        <div class="col-lg-6" style="text-align: right; padding-right: 40px;"><h3 id="category">
-                        <?php echo $category_name?><h3></div>
+                        <h1 style="text-align: center;">Order Placed Successfully!</h1>
+                        <h2 style="color: #00b050; text-align: center;">Your order id# is <?php echo $transaction_id ?></h2>
+
+                        <h1 id="title" style="text-align: center;"></h1>
                     </div>
 
 
                     <br>
                     <!-- Place the image on the page dynamically -->
                     <div id="imgDiv">
-
-                    <img src="<?php echo $row["url"]?>">
+                    <img src="<?php echo $row["url"] ?>">
                     <br>
                     <br>
 
@@ -167,13 +128,9 @@
             </div>
 
             <div class="form-buttons" style="text-align: right;">
+                        
+                <!-- Set the Send form button -->                
                 
-                <!-- Set the Send form button -->
-                
-        <form action="detailedBuy.php?item_id=<?php echo $row["item_id"] ?>&user_id=<?php echo $user_id ?>" method="POST" enctype="multipart/form-data">
-                <button class="button" type="submit" name="submit">PLACE ORDER</button> 
-        </form>
-
             </div>
             
         </div>

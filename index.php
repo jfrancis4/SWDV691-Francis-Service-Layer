@@ -83,10 +83,11 @@ if(isset($_POST['submit'])){
     $row_cnt = $result->num_rows;
 
     $row = mysqli_fetch_assoc($result);
+    $user_id=$row["rentee_id"];
 
     if($row_cnt==1){
         echo "Login successful!";
-        header("Location: home.html");
+        header("Location: home2.php?id=".$user_id);
         die();
     }
     else{        

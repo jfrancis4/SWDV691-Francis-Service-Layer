@@ -27,44 +27,8 @@ $password="password1";
 $db="p2p_rentals"; 
 
 $conn = new mysqli($host, $user, $password,$db) or die("Connect failed: %s\n". $conn -> error);
+$user_id=$_GET['id'];
 
-if (!$conn) {
-die(mysqli_error());
-} else{
-
-    // $result = $conn->query("select * from items");
-
-    // while ($row = mysqli_fetch_assoc($result)) {
-    //     if ((int) $row["item_id"] % 3 === 0) {
-    //         printf("ID: %s  Name: %s", $row["item_id"], $row["name"]);
-    //         printf("<br />");
-    //         }
-    //     else{
-    //         printf("ID: %s  Name: %s", $row["item_id"], $row["name"]);
-    //         printf("|");
-    //     }
-    // }
-
-    // $result = $conn->query("select * from items");
-    // $row2 = mysqli_fetch_assoc($result);
-
-    // $url=$row2['url'];
-    // $name=$row2['name'];
-    // $categoryId=$row2['category_id'];
-
-
-    // $result = $conn->query("select category_name from categories where category_id='$categoryId'");
-    // $row = mysqli_fetch_assoc($result);
-
-    
-
-    // $categoryNm=$row['category_name'];
-
-    // $result = $conn->query("select count(*) as count from items");
-    // $row = mysqli_fetch_assoc($result);
-    // $rowCnt=$row['count'];
-
-}
 ?>
 
 <body>
@@ -74,17 +38,19 @@ die(mysqli_error());
             <div class="col-lg-2">
                 <!-- In the first column of the header, place the renda logo and have it link back to the homepage -->
                 <div role="img" aria-label="Image of Renda Logo, click it to go to the home page">
-                    <a href="index.html">
+                <a href="home2.php?id=<?php echo $user_id ?>">
                         <img src="RendaLogo.PNG" width="158px" height="98px">
                     </a>
                 </div>
             </div>
             <!-- In the second column of the header, place the search bar and the label -->
             <div class="col-lg-8" style="height: 98px; padding-top: 30px;">
-                <form>
+                <form action="home2.php?id=<?php echo $user_id ?>" method="post">
                     <label for="search" class="inputLabel">Search</label>
-                    <input type="input" id="name" class="inputField" value="">
+                    <input type="input" id="submit2" name="submit2" type="submit" class="inputField" value="">
                 </form>
+            
+
             </div>
             <!-- In the third columnn of the header, place the logout button -->
             <div class="col-lg-2" style="height: 98px; padding-left: 50px;">
@@ -101,11 +67,28 @@ die(mysqli_error());
                     <span class="bar"></span>
                 </a>
                 <!-- Display the two navbar links -->
-                <div class="navbar-links">
-                    <ul>
-                        <li><a href="#">Categories</a></li>
-                        <li><a href="newposting.html">New Posting</a></li>
-                    </ul>
+                <div class="navbar-links">                
+                        <button class="button2" type="reset" value="Clear"><a href="home2.php?id=<?php echo $user_id ?>&category=Outdoor/Camping">Outdoor/Camping</a></button>
+                        <button class="button2" type="reset" value="Clear"><a href="home2.php?id=<?php echo $user_id ?>&category=Electronics">Electronics</a></button>
+
+                        <button class="button2" type="reset" value="Clear"><a href="home2.php?id=<?php echo $user_id ?>&category=Furniture">Furniture</a></button>
+
+                        <button class="button2" type="reset" value="Clear"><a href="home2.php?id=<?php echo $user_id ?>&category=Clothing">Clothing</a></button>
+                        <button class="button2" type="reset" value="Clear"><a href="home2.php?id=<?php echo $user_id ?>&category=Home/Bath">Home/Bath</a></button>
+
+                        <button class="button2" type="reset" value="Clear"><a href="newposting.php?user_id=<?php echo $user_id ?>">New Posting</a></button>
+
+                        <!-- <?php
+
+                                    /* if(isset($_GET['category'])) {
+                                        // id index exists
+                                        echo '<script language="javascript">';
+                                        echo '<script type="text/javascript">alert("You selected category '.$_GET['category'].'");</script>';
+                                        echo '</script>';
+                                    }
+ */
+                        ?> -->
+
                 </div>
             </nav>
         </div>
@@ -120,64 +103,99 @@ die(mysqli_error());
 
             <?php
 
-                $result = $conn->query("select * from items");
+            if (!$conn) {
+                die(mysqli_error());
+                } 
+            
+            else{
+                $user_id=$_GET['id'];
 
-                while ($row = mysqli_fetch_assoc($result)) {
-                    $categoryId=$row["category_id"];
-                    $result2 = $conn->query("select category_name from categories where category_id='$categoryId'");
-                         $row2 = mysqli_fetch_assoc($result2);
-                         $categoryNm=$row2['category_name'];
+                if(isset($_GET['category'])) {
 
-                    if ((int) $row["item_id"]+1 % 3 === 0) {
-                        ?>
-                        </div>
-
-                        <div class="row">
-                        <div class="col-md-4">
-                            <div class="postleft">
-                            <p style="text-align:right">
-                            <a href="detailedBuy.html?image=<?php echo $row["url"] ?>&title=<?php echo $row["name"] ?>&category=<?php echo $categoryNm ?>" style="color: #00b050">Buy</a> 
-                            <a href="detailed.html?image=<?php echo $row["url"] ?>&title=<?php echo $row["name"] ?>&category=<?php echo $categoryNm ?>" style="color: #00b050">Rent</a></p>
-                            <img src="<?php echo $row["url"] ?>"/>
-                            </div>
-                        </div>
-
-                        <?php
-                        }
-                    else{
-                        ?>
-                        <div class="col-md-4">
-                            <div class="postleft">
-                            <p style="text-align:right">
-                            <a href="detailedBuy.html?image=<?php echo $row["url"] ?>&title=<?php echo $row["name"] ?>&category=<?php echo $categoryNm ?>" style="color: #00b050">Buy</a> 
-                            <a href="detailed.html?image=<?php echo $row["url"] ?>&title=<?php echo $row["name"] ?>&category=<?php echo $categoryNm ?>" style="color: #00b050">Rent</a></p>
-                            <img src="<?php echo $row["url"] ?>"/>
-                            </div>
-                        </div>
-                        <?php
+                    $category=$_GET['category'];
+                    // id index exists
+                    switch ($category) {
+                        case "Outdoor/Camping":
+                            $category_id=1;
+                            break;
+                        case "Electronics":
+                            $category_id=2;
+                            break;
+                        case "Furniture":
+                            $category_id=3;
+                            break;
+                        case "Clothing":
+                            $category_id=4;
+                            break;
+                        case "Home/Bath":
+                            $category_id=5;
+                            break;
                     }
+                    $result = $conn->query("select * from items where renter_id<>".$user_id." and category_id=".$category_id);
+
+                    $row_cnt = $result->num_rows;
+                } elseif(isset($_POST['submit2'])){
+
+                    
+                    $result = $conn->query("select * from items where renter_id<>".$user_id." and name like '%".$_POST['submit2']."%'");
+                    $row_cnt = $result->num_rows;
+
+                }
+                else{
+                    $result = $conn->query("select * from items where renter_id<>".$user_id);
+
+                    $row_cnt = $result->num_rows;
+
                 }
 
-                // $result = $conn->query("select * from items");
-                // $row2 = mysqli_fetch_assoc($result);
 
-                // $url=$row2['url'];
-                // $name=$row2['name'];
-                // $categoryId=$row2['category_id'];
+                if($row_cnt==0){
+                    ?>
+                    <div class="row">
+                         <p style="color: white; text-align: center">Sorry, no items were found</p>
+                    <?php
+                }
+                else{        
+
+                    while ($row = mysqli_fetch_assoc($result)) {
+                        $categoryId=$row["category_id"];
+                        $result2 = $conn->query("select category_name from categories where category_id='$categoryId'");
+                            
+                        $row2 = mysqli_fetch_assoc($result2);
+                        $categoryNm=$row2['category_name'];
 
 
-                // $result = $conn->query("select category_name from categories where category_id='$categoryId'");
-                // $row = mysqli_fetch_assoc($result);
+                        if ((int) $row["item_id"]+1 % 3 === 0) {
+                            ?>
+                            </div>
 
+                            <div class="row">
+                            <div class="col-md-4">
+                                <div class="postleft">
+                                <p style="text-align:right">
+                                <a href="detailedBuy.php?item_id=<?php echo $row["item_id"] ?>&user_id=<?php echo $user_id ?>" style="color: #00b050">Buy</a> 
+                                <a href="detailed.php?item_id=<?php echo $row["item_id"] ?>&user_id=<?php echo $user_id ?>" style="color: #00b050">Rent</a></p>
+                                <img src="<?php echo $row["url"] ?>"/>
+                                </div>
+                            </div>
 
-
-                // $categoryNm=$row['category_name'];
-
-                // $result = $conn->query("select count(*) as count from items");
-                // $row = mysqli_fetch_assoc($result);
-                // $rowCnt=$row['count'];
-
-        
+                            <?php
+                        }
+                        else{
+                            ?>
+                            <div class="col-md-4">
+                                <div class="postleft">
+                                <p style="text-align:right">
+                                <a href="detailedBuy.php?item_id=<?php echo $row["item_id"] ?>&user_id=<?php echo $user_id ?>" style="color: #00b050">Buy</a> 
+                                <a href="detailed.php?item_id=<?php echo $row["item_id"] ?>&user_id=<?php echo $user_id ?>" style="color: #00b050">Rent</a></p>
+                                <img src="<?php echo $row["url"] ?>"/>
+                                </div>
+                            </div>
+                            <?php
+                        }
+                    }
+                }
+                }        
                 ?>
 
         <!-- define the target div location where the contents of the script get written into -->
@@ -195,8 +213,8 @@ die(mysqli_error());
             <div class="col-lg-4">
                 <a href="#" class="fa fa-facebook" style="width: 60px; margin-top: 15px;"></a>
                 <a href="#" class="fa fa-twitter" style="width: 80px;"></a>
-                <button class="button2"><a href="aboutus.html">About Us</a></button>
-                <button class="button2"><a href="contactus.html">Contact Us/FAQ</a></button>
+                <button class="button2"><a href="aboutus.php?user_id=<?php echo $user_id ?>">About Us</a></button>
+                <button class="button2"><a href="contactus.php?user_id=<?php echo $user_id ?>">Contact Us/FAQ</a></button>
                 
             </div>
         <div>
